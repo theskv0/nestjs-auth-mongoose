@@ -6,6 +6,7 @@ import { RouterModule } from '@nestjs/core';
 import { AppMiddleware } from './middlewares/app/app.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.entity';
+import { Device } from './entities/device.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { User } from './entities/user.entity';
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [User],
+      entities: [User, Device],
       synchronize: true,
     }),
     UserModule,

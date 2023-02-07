@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import JoiValidationPipe from 'src/utils/joi.validator';
+import LoginDto from '../dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,10 +15,9 @@ export class AuthController {
     return this.authService.signup(signupDto);
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() req) {
-    return this.authService.login(req.user);
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 
   @UseGuards(JwtAuthGuard)

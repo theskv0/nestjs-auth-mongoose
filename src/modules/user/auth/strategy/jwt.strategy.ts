@@ -14,8 +14,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any): Promise<any> {
-    if (payload?.auth_id) {
-      return this.authService.profile(payload.auth_id);
+    const device = await this.authService.getDevice(payload.session_id);
+    if (device) {
+      if (payload?.auth_id) {
+        return this.authService.profile(payload.auth_id);
+      }
     }
     return null;
   }
