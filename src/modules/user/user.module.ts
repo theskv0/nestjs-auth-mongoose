@@ -7,17 +7,15 @@ import { AuthService } from './auth/services/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/strategy/jwt.strategy';
 import { Device } from 'src/entities/device.entity';
+import { RefreshStrategy } from './auth/strategy/refresh.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, RefreshStrategy],
   imports: [
     PassportModule,
     TypeOrmModule.forFeature([User, Device]),
-    JwtModule.register({
-      secret: process.env.APP_SECRET,
-      signOptions: { expiresIn: '60m' },
-    }),
+    JwtModule.register({}),
   ],
   exports: [AuthService],
 })

@@ -97,6 +97,18 @@ export class AuthService {
     return device || null;
   }
 
+  async getTokens(user: User) {
+    const tokens = await this.registerDevice(user);
+    return {
+      status: true,
+      message: 'Success!',
+      data: {
+        profile: user,
+        tokens,
+      },
+    };
+  }
+
   private async registerDevice(user: User) {
     const session_id = randomBytes(64).toString('hex');
     const payload = {
@@ -119,11 +131,11 @@ export class AuthService {
       });
     }
     const access_token = await this.jwtService.sign(payload, {
-      secret: process.env.APP_SECRET,
+      secret: process.env.JWT_ACCESS_SECRET,
       expiresIn: '1m',
     });
     const refresh_token = await this.jwtService.sign(payload, {
-      secret: process.env.APP_SECRET,
+      secret: process.env.JWT_REFRESH_SECRET,
       expiresIn: '5m',
     });
     return {

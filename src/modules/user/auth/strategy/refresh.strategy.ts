@@ -4,12 +4,12 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(private authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_ACCESS_SECRET,
+      secretOrKey: process.env.JWT_REFRESH_SECRET,
     });
   }
 
