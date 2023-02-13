@@ -109,6 +109,24 @@ export class AuthService {
     };
   }
 
+  async logout(access_token: string) {
+    const payload = await this.jwtService.verify(
+      access_token.replace('Bearer ', ''),
+      {
+        secret: process.env.JWT_ACCESS_SECRET,
+      },
+    );
+    await this.deviceRepository.delete({
+      type: Constant.AUTH_TYPE.User,
+      session_id: payload.session_id,
+    });
+    return {
+      status: true,
+      message: 'Success!',
+      data: {},
+    };
+  }
+
   private async registerDevice(user: User) {
     const session_id = randomBytes(64).toString('hex');
     const payload = {
