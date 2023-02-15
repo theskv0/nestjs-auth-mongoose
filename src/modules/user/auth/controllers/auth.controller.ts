@@ -4,19 +4,20 @@ import { SignupDto, SignupSchema } from '../dtos/signup.dto';
 import { AuthService } from '../services/auth.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import JoiValidationPipe from 'src/utils/joi.validator';
-import LoginDto from '../dtos/login.dto';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
+import { LoginDto, LoginSchema } from '../dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @Post('signup')
   signup(@Body(new JoiValidationPipe(SignupSchema)) signupDto: SignupDto) {
     return this.authService.signup(signupDto);
   }
 
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
+  login(@Body(new JoiValidationPipe(LoginSchema)) loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
